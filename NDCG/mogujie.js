@@ -1,4 +1,4 @@
-﻿function V(t, e) {
+function V(t, e) {
     return t(e = {
         exports: {}
     }, e.exports),
