@@ -21,7 +21,7 @@ import random,time
 # sys.path.append("..")
 
 header_pinlun = {
-    'Cookie':'_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; fspop=test; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; cy=3; cye=hangzhou; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1604225337,1604284790,1604312709,1604380596; dper=4e66b3602e201a2803059b7a32ff5f011a988e14af51601c0bae761db8914698696876da48a7b666274a39a4ca023c581606381b1f6231526525a7be8de485d1a1b6a9db649fbde63ad79b47dafbf7a2d3ec88c42524438a3304130bd691baee; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dplet=8fb9acd48aff6543b482e04863e415db; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1604384542; _lxsdk_s=1758cc13f3a-72-c51-238%7C%7C2058',
+    'Cookie':'cy=3; cye=hangzhou; _lxsdk_cuid=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _lxsdk=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _hc.v=9030c7fe-0b57-e105-ffa5-45d14dae3ce0.1603081232; ll=7fd06e815b796be3df069dec7836c3df; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a9981023b8d10bde71e72095032b366399a6fe8; uamo=13247877023; s_ViewType=10; dper=a692dd00b59f6bb61dbee6cbd356f84ca9759ce61fd38cec1c34dd4af2833e9de75f06443554a7cc84eff48a876de8a9e6df65cf464542041203347a9d37996e57321a8b184aaf0e81b2930341fc1aa1d339073a49843ee04abd69fdff5db521; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1603081232,1603081243,1605159680; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; dplet=7a43f825689c976c0d67bccb6df28234; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1605160847; _lxsdk_s=175baf83d92-b4a-5d8-2d%7C%7C777',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
     'Referer': 'http://www.dianping.com/shop/{shopid}/review_all',
@@ -68,6 +68,9 @@ def get_msg(shopid,page):
     for data in pinglunLi:
         # 用户名
         userName = data("div.main-review > div.dper-info > a").text()
+        if not userName:
+            print("该页面没有评论")
+            return 0
         # 用户ID链接
         try:
             userID = "http://www.dianping.com" + data("div.main-review > div.dper-info > a").attr("href")
@@ -100,7 +103,7 @@ def get_msg(shopid,page):
         print("pinglun:", css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun))
         print("*" * 100)
         pinluncontent = css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun)
-        out = open('./获取店铺评论1.csv', 'a', newline='', encoding='utf-8')
+        out = open('./获取店铺评论2.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow([userName, userID, startShop, describeShop, loveFood, pinglunTime, pinluncontent])
@@ -115,20 +118,23 @@ def css_get(doc):
     background_link = requests.get(css_link, headers=header_css)
     r = r'svgmtsi.*?background-image: url(.*?);'
     matchObj = re.compile(r, re.I)
-    svg_link = matchObj.findall(background_link.text)[0].replace(")", "").replace("(", "http:")
-    print(svg_link)
-    """
-    svg_text() 方法：请求svg字库，并抓取加密字
-    dict_svg_text: svg整个加密字库，以字典形式返回
-    list_svg_y：svg背景中的<path>标签里的[x,y]坐标轴，以[x,y]形式返回
-    """
-    dict_avg_text, list_svg_y = svg_text(svg_link)
-    """
-    css_dict() 方法：生成css样式中background的样式库
-    dict_css: 返回css字典样式
-    """
-    dict_css = css_dict(background_link.text)
-    return dict_avg_text, list_svg_y, dict_css
+    try:
+        svg_link = matchObj.findall(background_link.text)[0].replace(")", "").replace("(", "http:")
+        print(svg_link)
+        """
+        svg_text() 方法：请求svg字库，并抓取加密字
+        dict_svg_text: svg整个加密字库，以字典形式返回
+        list_svg_y：svg背景中的<path>标签里的[x,y]坐标轴，以[x,y]形式返回
+        """
+        dict_avg_text, list_svg_y = svg_text(svg_link)
+        """
+        css_dict() 方法：生成css样式中background的样式库
+        dict_css: 返回css字典样式
+        """
+        dict_css = css_dict(background_link.text)
+        return dict_avg_text, list_svg_y, dict_css
+    except:
+        input("24小时内无法访问大众点评评论")
 
 
 # 2-字体库链接
@@ -245,7 +251,7 @@ if __name__ == '__main__':
     file_name = './获取店铺id测试.csv'
     datas, dicts = ReadCSV(file_name)
     for data in datas:
-        out = open('./获取店铺评论1.csv', 'a', newline='', encoding='utf-8')
+        out = open('./获取店铺评论2.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow(["店铺名称", "店铺id"])
