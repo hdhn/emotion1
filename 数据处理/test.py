@@ -9,8 +9,9 @@ with open('./Yelp_poi_categories.txt','r',encoding='utf-8') as reader:
         if not lines:
             break
             pass
-        p_tmp, E_tmp = [i for i in lines.split()]  # 将整行数据分割处理，如果分割符是空格，括号里就不用传入参数，如果是逗号， 则传入‘，'字符。
+        p_tmp, E_tmp = [i for i in lines.split()]# 将整行数据分割处理，如果分割符是空格，括号里就不用传入参数，如果是逗号， 则传入‘，'字符。
+        print(p_tmp,E_tmp)
         pos.append(p_tmp)  # 添加新读取的数据
         Efield[p_tmp]=E_tmp
-    print(pos)
+    # print(p_tmp)
     
