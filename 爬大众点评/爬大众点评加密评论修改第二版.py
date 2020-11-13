@@ -9,16 +9,17 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 sys.path.append("..")
 
 header_pinlun = {
-    'Cookie': '_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; fspop=test; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; cy=3; cye=hangzhou; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1604062776,1604153003,1604195277,1604225337; dper=c1de35bfe1ec6933d73950c703918146571f7e59b2b0d4ada6be9f58a2d1bb428a7ac5de05d86149c6a2ccf11e4affd4a4544bb1074f6b688bb1e9cc375e624ec0139b4bd6e0d32dfc1471f7f799a98accbe8ff5bdba99484e7d02b0a7edda42; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dplet=174608ef6aaa7a88230de0de4d5c175a; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1604226346; _lxsdk_s=1758348070f-8cb-a82-03c%7C%7C817',
+    'Cookie': 'cy=3; cye=hangzhou; _lxsdk_cuid=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _lxsdk=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _hc.v=9030c7fe-0b57-e105-ffa5-45d14dae3ce0.1603081232; ll=7fd06e815b796be3df069dec7836c3df; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a9981023b8d10bde71e72095032b366399a6fe8; uamo=13247877023; s_ViewType=10; dper=a692dd00b59f6bb61dbee6cbd356f84ca9759ce61fd38cec1c34dd4af2833e9de75f06443554a7cc84eff48a876de8a9e6df65cf464542041203347a9d37996e57321a8b184aaf0e81b2930341fc1aa1d339073a49843ee04abd69fdff5db521; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1603081232,1603081243,1605159680; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; dplet=7a43f825689c976c0d67bccb6df28234; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1605159883; _lxsdk_s=175baf83d92-b4a-5d8-2d%7C%7C212',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
-    'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36'
+    'Referer': 'http://www.dianping.com/shop/l8uNm5kgLP4n6eLq/review_all',
+    'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36'
 }
 
 header_css = {
     'Host': 's3plus.meituan.net',
     'Accept-Encoding': 'gzip',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36'
 
 }
 
@@ -39,7 +40,7 @@ def get_msg(shopid,page):
         print(doc("head >link")[3].get('href'))
     except:
         print(url)
-        return doc("head >link")[3].get('href')
+        return 0
     # 解析每条评论
     pinglunLi = doc("div.reviews-items > ul > li").items()
     """
@@ -63,7 +64,7 @@ def get_msg(shopid,page):
         try:
             startShop = str(data("div.review-rank > span").attr("class")).split(" ")[1].replace("sml-str", "")
         except:
-            startShop = '0'
+            startShop = '0'   #用户评分不存在
         # 用户描述：机器：非常好 环境：非常好 服务：非常好 人均：0元
         describeShop = data("div.review-rank > span.score").text()
         # 关键部分，评论HTML,待处理，评论包含隐藏部分和直接展示部分，默认从隐藏部分获取数据，没有则取默认部分。（查看更多）
@@ -85,7 +86,7 @@ def get_msg(shopid,page):
         print("pinglun:", css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun))
         print("*" * 100)
         pinluncontent = css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun)
-        out = open('./获取店铺评论.csv','a',newline='',encoding='utf-8')
+        out = open('./获取店铺评论2.csv','a',newline='',encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow([userName,userID,startShop,describeShop,loveFood,pinglunTime,pinluncontent])
@@ -223,7 +224,7 @@ if __name__ == '__main__':
     file_name = './获取店铺id测试.csv'
     datas,dicts  = ReadCSV(file_name)
     for data in datas:
-        out = open('./获取店铺评论.csv', 'a', newline='', encoding='utf-8')
+        out = open('./获取店铺评论2.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow(["店铺名称", "店铺id"])
@@ -231,7 +232,7 @@ if __name__ == '__main__':
         csv_write.writerow(["userName", "userID", "startShop", "describeShop", "loveFood", "pinglunTime", "pinglun"])
         out.close()
         print("店铺名称",dicts[data], "店铺id",data)
-        for page in range(1,2000):
+        for page in range(2,2000):
             print("正在爬取%s页。。。。。" % page)
             a = get_msg(shopid=data,page=page)
             if not a:
