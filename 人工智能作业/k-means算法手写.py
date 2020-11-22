@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# 计算欧拉距离
+# 计算欧氏距离
 def calcDis(dataSet, centroids, k):
     clalist = []
     for data in dataSet:
@@ -61,18 +61,26 @@ def kmeans(dataSet, k):
 # 创建数据集
 def createDataSet():
     data = np.random.uniform(1,50,(100,2))
-    print(data)
-    return list(data)#[[1, 1], [1, 2], [2, 1], [6, 4], [6, 3], [5, 4]]
+    return data#[[1, 1], [1, 2], [2, 1], [6, 4], [6, 3], [5, 4]]
 
 
 if __name__ == '__main__':
     dataset = createDataSet()
-    centroids, cluster = kmeans(dataset, 7)
+    dataset1 = pd.DataFrame(dataset)
+    centroids, cluster = kmeans(list(dataset), 7)
+    # ze = pd.DataFrame(np.zeros(dataset1.shape[0]).reshape(-1, 1))
+    # test_set = pd.concat([dataset1, ze], axis=1, ignore_index=True)
+    # test_cent, test_cluster = kmeans(list(test_set), 4)
+    # plt.scatter(test_cluster.iloc[:, 0], test_cluster.iloc[:, 1], c=test_cluster.iloc[:, -1])
+    # plt.scatter(test_cent[:, 0], test_cent[:, 1], color='red', marker='x', s=80)
     print('质心为：%s' % centroids)
     print('集群为：%s' % cluster)
-    for i in range(len(dataset)):
-        plt.scatter(dataset[i][0], dataset[i][1], marker='o', color='green', s=40, label='原始点')
+    #for i in range(len(dataset)):
+        #plt.scatter(dataset[i][0], dataset[i][1], marker='o',c = 'green', s=40, label='原始点')
         #  记号形状       颜色      点的大小      设置标签
-        for j in range(len(centroids)):
-            plt.scatter(centroids[j][0], centroids[j][1], marker='x', color='red', s=50, label='质心')
+    for j in range(len(centroids)):
+        for i in range(len(dataset)):
+            plt.scatter(dataset[i][0], dataset[i][1], marker='o', c="G", s=40, label='原始点')
+        plt.scatter(centroids[j][0], centroids[j][1], marker='x', color='red', s=50, label='质心')
     plt.show()
+    print(pd.DataFrame(centroids))
