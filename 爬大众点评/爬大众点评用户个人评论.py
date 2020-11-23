@@ -6,7 +6,7 @@ from pyquery import PyQuery as pq
 import time,random
 
 headers = {
-    'Cookie':'_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; cy=3; cye=hangzhou; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1605786702,1605928795,1606009699,1606009855; expand=yes; lgtoken=095c428b7-cdfa-4d22-93af-a117399501b7; dper=9b19a1a593ad927bca495d81ed4a4786ed1d43d3ee000ad207e8d953de7267954dc40f2c58c9808b95409fce2a928087454caa2737befc4a7862a94599c4144243e0d541c1080a27b436a5063c3473778d8e32e1b2eb8ce5973c0031c1df015f; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dplet=eb2211390b35b5efb78bc26ab6b88360; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1606009894; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; _lxsdk_s=175eda33571-854-a69-e0%7C%7C88',
+    'Cookie':'_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; cy=3; cye=hangzhou; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1605786702,1605928795,1606009699,1606009855; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dper=537233be492fe99ffbd53e9970a73e1589b890d5aad237957a18b22219dccbba1d05b5c34c41455297eb0415ddc21e8a0b6a7cf9983d04a5be46c7d9a1bb042bc5e0c5a3b81bcb137e4f111395a7a219061ed350096dec166da7984f36e449c9; dplet=8a2b0fe39b448096803e21ebaff3c299; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1606135333; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; _lxsdk_s=175f5203f64-017-4e9-85a%7C%7C3',
     'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36',
     'Referer': '{url}/reviews'
 }
@@ -61,11 +61,11 @@ def ReadCSV(filename):
         return datas,dicts
 
 if __name__ =='__main__':
-    datas,dicts = ReadCSV('获取店铺评论测试.csv')
+    datas,dicts = ReadCSV('获取店铺评论测试1.csv')
     count = 1
     for data in datas:
         print("用户名称",data, "用户id",dicts[data].split('/')[4])
-        with open('./获取用户个人评论.csv', 'a', newline='', encoding='utf-8') as out:
+        with open('./获取用户个人评论1.csv', 'a', newline='', encoding='utf-8') as out:
             csv_write = csv.writer(out, dialect='excel')
             if count ==1:
                 #csv_write.writerow(["用户名称", "用户id","用户星级",'注册时间',"评论"])
