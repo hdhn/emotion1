@@ -66,6 +66,7 @@ def createDataSet():
 
 if __name__ == '__main__':
     dataset = createDataSet()
+    print(dataset)
     dataset1 = pd.DataFrame(dataset)
     centroids, cluster = kmeans(list(dataset), 7)
     # ze = pd.DataFrame(np.zeros(dataset1.shape[0]).reshape(-1, 1))
@@ -75,12 +76,15 @@ if __name__ == '__main__':
     # plt.scatter(test_cent[:, 0], test_cent[:, 1], color='red', marker='x', s=80)
     print('质心为：%s' % centroids)
     print('集群为：%s' % cluster)
+
+    centroids = pd.DataFrame(centroids)
     #for i in range(len(dataset)):
         #plt.scatter(dataset[i][0], dataset[i][1], marker='o',c = 'green', s=40, label='原始点')
         #  记号形状       颜色      点的大小      设置标签
-    for j in range(len(centroids)):
-        for i in range(len(dataset)):
-            plt.scatter(dataset[i][0], dataset[i][1], marker='o', c="G", s=40, label='原始点')
-        plt.scatter(centroids[j][0], centroids[j][1], marker='x', color='red', s=50, label='质心')
+    # for j in range(len(centroids)):
+    #     for i in range(len(dataset)):
+    print(centroids.iloc[:,-1])
+    #plt.scatter(dataset[:,0], dataset[:,1], marker='o', c=centroids.iloc[:,-1], s=40, label='原始点')
+    plt.scatter(centroids.iloc[:,0], centroids.iloc[:,1], marker='x', color='red', s=50, label='质心')
     plt.show()
     print(pd.DataFrame(centroids))
