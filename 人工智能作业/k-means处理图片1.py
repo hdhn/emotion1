@@ -11,8 +11,9 @@ cols = image.shape[1]
 image = image.reshape(rows*cols,3)
 # n_init:每一次算法运行时开始的centroid seeds是随机生成的,
 # 这样得到的结果也可能有好有坏. 所以要运行算法n_init次, 取其中最好的（时间最短的）.
-print(image)
+#print(image)
 kmeans = KMeans(n_clusters=128,n_init=10,max_iter=200)
+print(kmeans)
 kmeans.fit(image)
 
 clusters = np.asarray(kmeans.cluster_centers_,dtype=np.uint8)

@@ -2,8 +2,8 @@ import random
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
-
+from sklearn.metrics import pairwise_distances_argmin
+from sklearn.datasets.samples_generator import make_blobs
 # 计算欧氏距离
 def calcDis(dataSet, centroids, k):
     clalist = []
@@ -64,27 +64,49 @@ def createDataSet():
     return data#[[1, 1], [1, 2], [2, 1], [6, 4], [6, 3], [5, 4]]
 
 
-if __name__ == '__main__':
-    dataset = createDataSet()
-    print(dataset)
-    dataset1 = pd.DataFrame(dataset)
-    centroids, cluster = kmeans(list(dataset), 7)
-    # ze = pd.DataFrame(np.zeros(dataset1.shape[0]).reshape(-1, 1))
-    # test_set = pd.concat([dataset1, ze], axis=1, ignore_index=True)
-    # test_cent, test_cluster = kmeans(list(test_set), 4)
-    # plt.scatter(test_cluster.iloc[:, 0], test_cluster.iloc[:, 1], c=test_cluster.iloc[:, -1])
-    # plt.scatter(test_cent[:, 0], test_cent[:, 1], color='red', marker='x', s=80)
-    print('质心为：%s' % centroids)
-    print('集群为：%s' % cluster)
+def find_clusters(x, n_clusters, rseed=2):
+    #1.随机选择簇中心点
+    rng = np.random.RandomState(rseed)
+    i = rng.permutation(x.shape[0])[:n_clusters]
+    centers = x[i]
 
-    centroids = pd.DataFrame(centroids)
-    #for i in range(len(dataset)):
-        #plt.scatter(dataset[i][0], dataset[i][1], marker='o',c = 'green', s=40, label='原始点')
-        #  记号形状       颜色      点的大小      设置标签
-    # for j in range(len(centroids)):
-    #     for i in range(len(dataset)):
-    print(centroids.iloc[:,-1])
-    #plt.scatter(dataset[:,0], dataset[:,1], marker='o', c=centroids.iloc[:,-1], s=40, label='原始点')
-    plt.scatter(centroids.iloc[:,0], centroids.iloc[:,1], marker='x', color='red', s=50, label='质心')
-    plt.show()
-    print(pd.DataFrame(centroids))
+    while True:
+        # 2a.给于最近的中心执行标签
+        labels = pairwise_distances_argmin(x, centers)
+        #2b.根据点的平均值找到新的中心
+        new_centers =np.array([x[labels==i].mean(0)
+                               for i in range(n_clusters)])
+        #2c.确认收敛
+        if np.all(centers == new_centers):
+            break
+        centers = new_centers
+    return centers, labels
+if __name__ == '__main__':
+    # dataset = createDataSet()
+    # print(dataset)
+    # dataset1 = pd.DataFrame(dataset)
+    # centroids, cluster = kmeans(list(dataset), 7)
+    # # ze = pd.DataFrame(np.zeros(dataset1.shape[0]).reshape(-1, 1))
+    # # test_set = pd.concat([dataset1, ze], axis=1, ignore_index=True)
+    # # test_cent, test_cluster = kmeans(list(test_set), 4)
+    # # plt.scatter(test_cluster.iloc[:, 0], test_cluster.iloc[:, 1], c=test_cluster.iloc[:, -1])
+    # # plt.scatter(test_cent[:, 0], test_cent[:, 1], color='red', marker='x', s=80)
+    # print('质心为：%s' % centroids)
+    # print('集群为：%s' % cluster)
+    #
+    # centroids = pd.DataFrame(centroids)
+    # #for i in range(len(dataset)):
+    #     #plt.scatter(dataset[i][0], dataset[i][1], marker='o',c = 'green', s=40, label='原始点')
+    #     #  记号形状       颜色      点的大小      设置标签
+    # # for j in range(len(centroids)):
+    # #     for i in range(len(dataset)):
+    # print(centroids.iloc[:,-1])
+    # #plt.scatter(dataset[:,0], dataset[:,1], marker='o', c=centroids.iloc[:,-1], s=40, label='原始点')
+    # plt.scatter(centroids.iloc[:,0], centroids.iloc[:,1], marker='x', color='red', s=50, label='质心')
+    # plt.show()
+    # print(pd.DataFrame(centroids))
+
+
+    x, y = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
+    center, labels = find_clusters(x, 4)
+    plt.scatter(x[:, 0], x[:, 1], c=labels, s=50, cmap='viridis')
