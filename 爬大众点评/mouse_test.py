@@ -4,9 +4,7 @@ import pyautogui,time,random
 
 #print(pyautogui.size())
 try:
-
-
-    while True: #pyautogui.pixelMatchesColor(209,972,(6,184,184))
+    while True:#pyautogui.pixelMatchesColor(209,972,(6,184,184))
         im = pyautogui.screenshot()
         x,y = pyautogui.position()
         print(im.getpixel((x,y)))
