@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96d8f23f-0f6d-432c-b28d-cd940fa40df0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/爬大众点评/mouse_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/爬大众点评/mouse_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/爬大众点评/爬大众点评用户个人评论.py" beforeDir="false" afterPath="$PROJECT_DIR$/爬大众点评/爬大众点评用户个人评论.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/爬大众点评/获取店铺评论测试1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/爬大众点评/获取店铺评论测试1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/爬大众点评/获取用户个人评论1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/爬大众点评/获取用户个人评论1.csv" afterDir="false" />
     </list>
@@ -1211,7 +1209,7 @@
       <workItem from="1605928815663" duration="6697000" />
       <workItem from="1606009864278" duration="34513000" />
       <workItem from="1606190402042" duration="8896000" />
-      <workItem from="1606224364499" duration="6710000" />
+      <workItem from="1606224364499" duration="8326000" />
     </task>
     <task id="LOCAL-00001" summary="爬大众点评用户个人评论">
       <created>1604890928391</created>
@@ -1255,7 +1253,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606200161958</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="代码更新">
+      <created>1606272488131</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1606272488132</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1282,10 +1287,10 @@
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
     <state x="1279" y="392" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.2048.1112@0.0.2048.1112" timestamp="1599658142512" />
-    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1606200160473">
+    <state x="560" y="112" key="CommitChangelistDialog2" timestamp="1606272486921">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1606200160473" />
+    <state x="560" y="112" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1606272486921" />
     <state x="184" y="86" key="DiffContextDialog" timestamp="1604335367030">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1295,25 +1300,25 @@
     </state>
     <state x="796" y="336" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1604334936697" />
     <state x="849" y="359" key="FileChooserDialogImpl/0.0.2048.1112@0.0.2048.1112" timestamp="1599649932533" />
-    <state width="1877" height="284" key="GridCell.Tab.0.bottom" timestamp="1606272362340">
+    <state width="1877" height="284" key="GridCell.Tab.0.bottom" timestamp="1606272755195">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1606272362340" />
+    <state width="1877" height="284" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1606272755195" />
     <state width="982" height="302" key="GridCell.Tab.0.bottom/0.0.2048.1112@0.0.2048.1112" timestamp="1599918491632" />
-    <state width="1877" height="284" key="GridCell.Tab.0.center" timestamp="1606272362340">
+    <state width="1877" height="284" key="GridCell.Tab.0.center" timestamp="1606272755195">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="284" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1606272362340" />
+    <state width="1877" height="284" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1606272755195" />
     <state width="982" height="302" key="GridCell.Tab.0.center/0.0.2048.1112@0.0.2048.1112" timestamp="1599918491632" />
-    <state width="1877" height="284" key="GridCell.Tab.0.left" timestamp="1606272362340">
+    <state width="1877" height="284" key="GridCell.Tab.0.left" timestamp="1606272755195">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="284" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1606272362340" />
+    <state width="1877" height="284" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1606272755195" />
     <state width="982" height="302" key="GridCell.Tab.0.left/0.0.2048.1112@0.0.2048.1112" timestamp="1599918491632" />
-    <state width="1877" height="284" key="GridCell.Tab.0.right" timestamp="1606272362340">
+    <state width="1877" height="284" key="GridCell.Tab.0.right" timestamp="1606272755195">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="284" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1606272362340" />
+    <state width="1877" height="284" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1606272755195" />
     <state width="982" height="302" key="GridCell.Tab.0.right/0.0.2048.1112@0.0.2048.1112" timestamp="1599918491632" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1602339499589">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -1340,10 +1345,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="ShowDiffWithBranchDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1604890769243" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1606200170159">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1606272495703">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1606200170159" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1606272495703" />
     <state x="92" y="92" width="1736" height="856" key="com.intellij.dvcs.ui.CompareBranchesDialog" timestamp="1604890769243">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1380,7 +1385,7 @@
     <SUITE FILE_PATH="coverage/untitled$list_ex_1.coverage" NAME="list_ex_1 Coverage Results" MODIFIED="1599142740286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/爬" />
     <SUITE FILE_PATH="coverage/untitled$_.coverage" NAME="递推关系-酵母菌生长模型 Coverage Results" MODIFIED="1599494716668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数学建模" />
     <SUITE FILE_PATH="coverage/untitled$id.coverage" NAME="获取店铺id Coverage Results" MODIFIED="1604070510993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/爬大众点评" />
-    <SUITE FILE_PATH="coverage/untitled$.coverage" NAME="爬大众点评用户个人评论 Coverage Results" MODIFIED="1606272362335" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/爬大众点评" />
+    <SUITE FILE_PATH="coverage/untitled$.coverage" NAME="爬大众点评用户个人评论 Coverage Results" MODIFIED="1606272755189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/爬大众点评" />
     <SUITE FILE_PATH="coverage/untitled$pulp.coverage" NAME="pulp库求解 Coverage Results" MODIFIED="1598851328970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数学建模" />
     <SUITE FILE_PATH="coverage/untitled$known_by_katelin.coverage" NAME="known_by_katelin Coverage Results" MODIFIED="1599148625772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/爬" />
     <SUITE FILE_PATH="coverage/untitled$test.coverage" NAME="test Coverage Results" MODIFIED="1605150924581" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/数据处理" />
