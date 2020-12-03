@@ -4,9 +4,10 @@ import re
 import requests,csv
 from pyquery import PyQuery as pq
 import time,random
+import pyautogui
 
 headers = {
-    'Cookie':'_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; cy=3; cye=hangzhou; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1605786702,1605928795,1606009699,1606009855; expand=yes; lgtoken=095c428b7-cdfa-4d22-93af-a117399501b7; dper=9b19a1a593ad927bca495d81ed4a4786ed1d43d3ee000ad207e8d953de7267954dc40f2c58c9808b95409fce2a928087454caa2737befc4a7862a94599c4144243e0d541c1080a27b436a5063c3473778d8e32e1b2eb8ce5973c0031c1df015f; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dplet=eb2211390b35b5efb78bc26ab6b88360; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1606009894; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; _lxsdk_s=175eda33571-854-a69-e0%7C%7C88',
+    'Cookie':'_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; cy=3; cye=hangzhou; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1606009855,1606186966,1606231686,1606354961; lgtoken=0bda71f55-3bf3-4db8-8b2d-c533b2071c86; dper=b1156a1e2c1b1fd04fe071d421724d8fdce3c369f344975ea270cd8ccaf5b241c098235725f67f3dd0cd94b8c29176a287e33e28e155c682bfa2c88c1ff136d94efb35243cf51154e8ebddaa01c3d13d5114d09f31f6350c7f7ea51726b4bd39; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dplet=1e617dc369091b5e32e273b4deac3739; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1606355071; _lxsdk_s=1760237735e-225-6cf-a1b%7C%7C71',
     'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36',
     'Referer': '{url}/reviews'
 }
@@ -19,7 +20,22 @@ def get_html(url):
     try:
         print(doc("div.user-info>span").attr('class').split(' ')[1].replace('urr-rank',''))
     except:
-        input("按enter键继续")
+        print('\033[33;46m请按enter键继续     \033[0m')
+        # if pyautogui.pixelMatchesColor(209,947,(6,184,184)):
+        pyautogui.click(215, 1059, button='left')
+        time.sleep(2)
+        pyautogui.click(131, 45, button='left')
+        time.sleep(2)
+        pyautogui.moveTo(884, 324, duration=1)
+        pyautogui.dragTo(1088, 329, duration=random.randint(1, 2))
+        time.sleep(2)
+        pyautogui.click(277, 1063, button='left')
+        time.sleep(2)
+        pyautogui.click(240, 978, button='left')
+        time.sleep(1)
+        # pyautogui.keyDown('enter')
+        # time.sleep(0.5)
+        # pyautogui.keyUp('enter')
         response = requests.get(url =url,headers = headers)
         doc = pq(response.text)
     user_star = doc("div.user-info>span").attr('class').split(' ')[1].replace('urr-rank','')
@@ -37,7 +53,7 @@ def get_html(url):
     print(pinglunds)
     return user_star,zhuce_shijian,pinglunds
 def get_html1(url):
-    headers['Referer'] = headers['Referer'].format(url = url )
+    headers['Referer'] = headers['Referer'].format(url = url)
     response1 = requests.get(url = url,headers = headers)
     doc1 = pq(response1.text)
     pinglun_didian =doc1('h6').items()
@@ -61,11 +77,11 @@ def ReadCSV(filename):
         return datas,dicts
 
 if __name__ =='__main__':
-    datas,dicts = ReadCSV('获取店铺评论测试.csv')
+    datas,dicts = ReadCSV('获取店铺评论测试1.csv')
     count = 1
     for data in datas:
         print("用户名称",data, "用户id",dicts[data].split('/')[4])
-        with open('./获取用户个人评论.csv', 'a', newline='', encoding='utf-8') as out:
+        with open('./获取用户个人评论1.csv', 'a', newline='', encoding='utf-8') as out:
             csv_write = csv.writer(out, dialect='excel')
             if count ==1:
                 #csv_write.writerow(["用户名称", "用户id","用户星级",'注册时间',"评论"])

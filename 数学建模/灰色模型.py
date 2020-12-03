@@ -49,7 +49,7 @@ def AHP(matrix):
         return None
 
 def mul_mymin_operator(A,R):
-    B = np.zeros((1,R.shape[1])):
+    B = np.zeros((1,R.shape[1]))
     for column in range(0,R.shape[1]):
         list = []
         for row in range(0,R.shape[0]):
