@@ -1,5 +1,5 @@
 # coding:utf-8
-import jieba
+import jieba,csv
 import numpy as np
 
 
@@ -39,6 +39,8 @@ def sentiment_score_list(dataset):
     count1 = []
     count2 = []
     for sen in seg_sentence:  # 循环遍历每一个评论
+        if not sen:
+            break
         segtmp = jieba.lcut(sen, cut_all=False)  # 把句子进行分词，以列表的形式返回
         i = 0  # 记录扫描到的词的位置
         a = 0  # 记录情感词的位置
@@ -143,7 +145,9 @@ def sentiment_score(senti_score_list):
         StdPos = float('%.1f' % StdPos)
         StdNeg = np.std(score_array[:, 1])
         StdNeg = float('%.1f' % StdNeg)
-        score.append([Pos, Neg, AvgPos, AvgNeg, StdPos, StdNeg])  # 积极、消极情感值总和(最重要)，积极、消极情感均值，积极、消极情感方差。
+        score.append([Pos, Neg, AvgPos, AvgNeg, StdPos, StdNeg])# 积极、消极情感值总和(最重要)，积极、消极情感均值，积极、消极情感方差。\
+    if not score:
+        score.append([0,0,0,0,0,0])
     return score
 
 
@@ -161,10 +165,17 @@ def JudgingEmotionByScore(Pos, Neg):
         str = '0'
     return str
 
-
+def ReadCSV(filename):
+    datas = []
+    with open(filename, 'r', encoding='utf-8') as csvfile:
+        csv_reader = csv.reader(csvfile)  # 使用csv.reader读取csvfile中的文件
+        # header = next(csv_reader)        # 读取第一行每一列的标题
+        for rows in csv_reader:
+            datas.append(rows[6])
+        return datas
 data1 = '今天上海的天气真好！我的心情非常高兴！如果去旅游的话我会非常兴奋！和你一起去旅游我会更加幸福！'
 data2 = '救命，你是个坏人，救命，你不要碰我，救命，你个大坏蛋！'
-data3 = '我是美国华裔科学家,祖籍江苏扬州市高邮县,生于上海,斯坦福大学物理系、电子工程系和应用物理系教授。'
+data3 = '我是美国华裔科学家,祖籍江苏扬州市高邮县,生于上海,斯坦福大学物理系、电子工程系和应用物理系教授'
 
 print(sentiment_score(sentiment_score_list(data1)))
 print(sentiment_score(sentiment_score_list(data2)))
@@ -177,5 +188,10 @@ e,f = EmotionByScore(data3)
 emotion1 = JudgingEmotionByScore(a, b)
 emotion2 = JudgingEmotionByScore(c, d)
 emotion3 = JudgingEmotionByScore(e, f)
-
 print(emotion1,emotion2,emotion3)
+
+# datas = ReadCSV('获取店铺评论.csv')
+# for data in datas:
+#     g,h = EmotionByScore(data)
+#     emotion4 = JudgingEmotionByScore(g,h)
+#     print(emotion4)

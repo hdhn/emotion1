@@ -53,7 +53,7 @@ def get_html(url):
     print(pinglunds)
     return user_star,zhuce_shijian,pinglunds
 def get_html1(url):
-    headers['Referer'] = headers['Referer'].format(url = url )
+    headers['Referer'] = headers['Referer'].format(url = url)
     response1 = requests.get(url = url,headers = headers)
     doc1 = pq(response1.text)
     pinglun_didian =doc1('h6').items()
