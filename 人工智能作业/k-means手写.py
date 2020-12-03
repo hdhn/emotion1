@@ -37,7 +37,13 @@ def kmeans(dataSet,k,distMeas = disEclud,creatCent = randCent):
     return centroids,result_set
 
 def createDataSet():
-    data = np.random.uniform(1,50,(100,2))
+    #data = np.random.uniform(1,50,(100,2))
+    data = [[25,255,255],
+            [25,255,255],
+            [255,25,255],
+            [255,25,255],
+            [255,255,25],
+            [255,255,25]]
     data = pd.DataFrame(data)
     print(data)
     return data#[[1, 1], [1, 2], [2, 1], [6, 4], [6, 3], [5, 4]]
@@ -46,7 +52,8 @@ if __name__ == '__main__':
     testSet = createDataSet()
     ze = pd.DataFrame(np.zeros(testSet.shape[0]).reshape(-1,1))
     test_set = pd.concat([testSet,ze],axis=1,ignore_index= True)
-    test_cent,test_cluster = kmeans(test_set,4)
+    test_cent,test_cluster = kmeans(test_set,2)
+    print(test_cluster)
     plt.scatter(test_cluster.iloc[:,0],test_cluster.iloc[:,1],c = test_cluster.iloc[:,-1])
 
     plt.scatter(test_cent[:,0],test_cent[:,1],color='red',marker='x',s = 80)
