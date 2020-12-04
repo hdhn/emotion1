@@ -25,8 +25,10 @@ def kmeans(dataSet,k,distMeas = disEclud,creatCent = randCent):
     clusterAssment[:,1:3] = -1
     result_set = pd.concat([dataSet,pd.DataFrame(clusterAssment)],axis=1,ignore_index=True)
     clusterChange = True
-    while clusterChange:
+    count1 = 0
+    while clusterChange and count1<=10:
         clusterChange = False
+        count1+=1
         for i in range(m):
             dist = distMeas(dataSet.iloc[i,:n-1].values,centroids)
             result_set.iloc[i,n] = dist.min()
@@ -37,7 +39,8 @@ def kmeans(dataSet,k,distMeas = disEclud,creatCent = randCent):
             centroids = cent_df.iloc[:,:n-1].values
             result_set.iloc[:,-1] = result_set.iloc[:,-2]
     return centroids,result_set
-image = io.imread('./smile.jpg')
+image = io.imread('./2.jpg')
+print(image)
 io.imshow(image)
 io.show()
 rows = image.shape[0]
@@ -64,9 +67,12 @@ image = pd.DataFrame(image)
 # io.show()
 ze = pd.DataFrame(np.zeros(image.shape[0]).reshape(-1,1))
 test_set = pd.concat([image,ze],axis=1,ignore_index= True)
-test_cent,test_cluster = kmeans(image,4)
-print(test_cluster)
-# plt.scatter(test_cluster.iloc[:,0],test_cluster.iloc[:,1],c = test_cluster.iloc[:,-1])
-#
-# plt.scatter(test_cent[:,0],test_cent[:,1],color='red',marker='x',s = 80)
-#plt.show()
+test_cent,test_cluster = kmeans(test_set,7)
+test_cluster.iloc[:,0:3] =test_cent[test_cluster.astype(int).iloc[:,6],0:3]
+print(test_cent,test_cluster)
+image1 = test_cluster.astype(int).iloc[:,0:3]
+print(image1)
+image1 = np.array(image1).reshape(rows,cols,3)
+print(image1)
+io.imshow(image1)
+io.show()
