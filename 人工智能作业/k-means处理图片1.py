@@ -74,5 +74,5 @@ image1 = test_cluster.astype(int).iloc[:,0:3]
 print(image1)
 image1 = np.array(image1).reshape(rows,cols,3)
 print(image1)
-io.imshow(image1)
+io.imshow(image1.astype(np.uint8))
 io.show()
