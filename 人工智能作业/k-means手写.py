@@ -31,7 +31,7 @@ def kmeans(dataSet,k,distMeas = disEclud,creatCent = randCent):
         for i in range(m):
             dist = distMeas(dataSet.iloc[i,:n-1].values,centroids) #计算欧氏距离
             result_set.iloc[i,n] = dist.min()#欧式距离的最小值储存在第n+1列
-            result_set.iloc[i,n+1] = np.where(dist == dist.min())[0]#第n+2列储存
+            result_set.iloc[i,n+1] = np.where(dist == dist.min())[0]#第n+2列储存质心编号
         clusterChange = not (result_set.iloc[:,-1]==result_set.iloc[:,-2]).all()
         if clusterChange:#判断质心是否发生变化
             cent_df = result_set.groupby(n+1).mean()
@@ -41,13 +41,14 @@ def kmeans(dataSet,k,distMeas = disEclud,creatCent = randCent):
     return centroids,result_set
 
 def createDataSet():
-    # data = np.random.uniform(1,50,(100,2))
-    image = io.imread('./1.jpg')
-    rows = image.shape[0]
-    cols = image.shape[1]
-    image = image.reshape(rows*cols,3)
-    print(image)
-    data = pd.DataFrame(image)
+    data = np.random.uniform(1,50,(100,2))
+    # image = io.imread('./1.jpg')
+    # rows = image.shape[0]
+    # cols = image.shape[1]
+    # image = image.reshape(rows*cols,3)
+    # print(image)
+    # data = pd.DataFrame(image)
+    data = pd.DataFrame(data)
     print(data)
     return data#[[1, 1], [1, 2], [2, 1], [6, 4], [6, 3], [5, 4]]
 
