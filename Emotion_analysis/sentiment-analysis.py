@@ -1,13 +1,4 @@
 
-# coding: utf-8
-
-# In[ ]:
-
-
-
-#! /usr/bin/env python2.7
-#coding=utf-8
-
 import pickle
 import textprocessing as tp
 import numpy as np
