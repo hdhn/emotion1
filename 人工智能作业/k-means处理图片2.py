@@ -1,4 +1,7 @@
 # --*--coding:utf-8 --*--
+
+from skimage import io
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -58,26 +61,42 @@ def kmeans(data,k):
     data_c=np.c_[data,ret]
     print(data_c)
     data_c=pd.DataFrame(data_c)
-    data_c.to_csv('./ret.csv')
+    # data_c.to_csv('./ret.csv')
 
-    center_x = K[:, 0]
-    center_y = K[:, 1]
-    plt.scatter(center_x, center_y, marker="X")
-    plt.scatter(X, Y,c=data_c.iloc[:,-1])
-    plt.show()
-
+    # center_x = K[:, 0]
+    # center_y = K[:, 1]
+    # plt.scatter(center_x, center_y, marker="X",color='r')
+    # plt.scatter(X, Y,c=data_c.iloc[:,-1])
+    # plt.show()
+    return K,data_c
 
 if __name__ == '__main__':
-    # data1=np.random.uniform(0,2,(10,2))
-    # data2=np.random.uniform(3,6,(10,2))
-    # data3=np.random.uniform(8, 10, (10, 2))
-    #data=np.r_[data1,data2,data3]
-    data = np.random.uniform(0,30,(200,2))
-    np.random.shuffle(data)
+    image = io.imread('./1.jpg')
+    print(image)
+    io.imshow(image)
+    io.show()
+    rows = image.shape[0]
+    cols = image.shape[1]
+    print(rows, cols)
+    # image[0,0,:]：表示在第一个像素点的位置上的rgb取值，位置（0,0），reshape之后呢，位置变成（0）
+    image = image.reshape(rows * cols, 3)
+    print(image)
+    #image = pd.DataFrame(image)
+    X = image[:, 0]
+    Y = image[:, 1]
+    test_cent,test_cluster=kmeans(image,3)
+    print(test_cent,test_cluster)
+    test_cluster.iloc[:, 0:3] = test_cent[test_cluster.astype(int).iloc[:, -1], 0:3]
+    print(test_cent, test_cluster)
+    image1 = test_cluster.astype(int).iloc[:, 0:3]
+    print(image1)
+    image1 = np.array(image1).reshape(rows, cols, 3)
+    print(image1)
+    io.imshow(image1.astype(np.uint8))
+    io.show()
+    # data = np.random.uniform(0,30,(200,2))
+    #
+    # X = data[:, 0]
+    # Y = data[:, 1]
+    # kmeans(data,5)
 
-    X = data[:, 0]
-    Y = data[:, 1]
-
-    #plt.scatter(X, Y,c ='' )
-    #plt.show()
-    kmeans(data,5)

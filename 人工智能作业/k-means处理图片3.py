@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import pairwise_distances_argmin
+from skimage import io
 # 计算欧氏距离
 def calcDis(dataSet, centroids, k):
     clalist = []
@@ -83,27 +84,35 @@ def find_clusters(x, n_clusters, rseed=2):
         centers = new_centers
     return centers, labels
 if __name__ == '__main__':
-    dataset = createDataSet()
-    print(dataset)
-    dataset1 = pd.DataFrame(dataset)
-    centroids, cluster,flag = kmeans(list(dataset), 7)
-    flag = pd.DataFrame(flag)
-    # ze = pd.DataFrame(np.zeros(dataset1.shape[0]).reshape(-1, 1))
-    # test_set = pd.concat([dataset1, ze], axis=1, ignore_index=True)
-    # test_cent, test_cluster = kmeans(list(test_set), 4)
-    # plt.scatter(test_cluster.iloc[:, 0], test_cluster.iloc[:, 1], c=test_cluster.iloc[:, -1])
-    # plt.scatter(test_cent[:, 0], test_cent[:, 1], color='red', marker='x', s=80)
+    image = io.imread('./1.jpg')
+    #print(image)
+    io.imshow(image)
+    io.show()
+    rows = image.shape[0]
+    cols = image.shape[1]
+    print(rows, cols)
+    # image[0,0,:]：表示在第一个像素点的位置上的rgb取值，位置（0,0），reshape之后呢，位置变成（0）
+    image = image.reshape(rows * cols, 3)
+    print(image)
+
+    #以上为处理图片添加的代码
+
+    dataset =image
+    centroids, cluster,flag = kmeans(list(dataset), 3)
+    #flag = pd.DataFrame(flag)
     print('质心为：%s' % centroids)
     print('集群为：%s' % cluster)
-
-    centroids = pd.DataFrame(centroids)
-    #for i in range(len(dataset)):
-        #plt.scatter(dataset[i][0], dataset[i][1], marker='o',c = 'green', s=40, label='原始点')
-        #  记号形状       颜色      点的大小      设置标签
-    # for j in range(len(centroids)):
-    #     for i in range(len(dataset)):
-    print(centroids.iloc[:,-1])
-    plt.scatter(dataset[:,0], dataset[:,1], marker='o', c=flag.iloc[:,-1], s=40, label='原始点')
-    plt.scatter(centroids.iloc[:,0], centroids.iloc[:,1], marker='x', color='red', s=50, label='质心')
-    plt.show()
-    # print(pd.DataFrame(centroids))
+    flag = np.array(flag)
+    image =  pd.DataFrame(image)
+    cluster = pd.DataFrame(cluster)
+    ze = pd.DataFrame(flag.reshape(-1, 1))
+    cluster = pd.concat([image, ze], axis=1, ignore_index=True)
+    centroids=np.array(centroids)
+    print(cluster)
+    cluster.iloc[:, 0:3] = centroids[cluster.astype(int).iloc[:, -1], 0:3]
+    image1 = cluster.astype(int).iloc[:, 0:3]
+    #print(image1)
+    image1 = np.array(image1).reshape(rows, cols, 3)
+    #print(image1)
+    io.imshow(image1.astype(np.uint8))
+    io.show()

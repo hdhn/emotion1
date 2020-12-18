@@ -49,7 +49,7 @@ def kmeans(dataSet, k, distMeas=disEclud, creatCent=randCent):
     return centroids, result_set
 
 
-image = io.imread('./2.jpg')
+image = io.imread('./1.jpg')
 print(image)
 io.imshow(image)
 io.show()
@@ -78,7 +78,8 @@ image = pd.DataFrame(image)
 ze = pd.DataFrame(np.zeros(image.shape[0]).reshape(-1, 1))
 test_set = pd.concat([image, ze], axis=1, ignore_index=True)
 test_cent, test_cluster = kmeans(test_set, 3)
-test_cluster.iloc[:, 0:3] = test_cent[test_cluster.astype(int).iloc[:, 6], 0:3]
+print(test_cent, test_cluster)
+test_cluster.iloc[:, 0:3] = test_cent[test_cluster.astype(int).iloc[:, -1], 0:3]
 print(test_cent, test_cluster)
 image1 = test_cluster.astype(int).iloc[:, 0:3]
 print(image1)
