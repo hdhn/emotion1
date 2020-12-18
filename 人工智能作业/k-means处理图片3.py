@@ -106,11 +106,11 @@ if __name__ == '__main__':
     image =  pd.DataFrame(image)
     cluster = pd.DataFrame(cluster)
     ze = pd.DataFrame(flag.reshape(-1, 1))
-    cluster = pd.concat([image, ze], axis=1, ignore_index=True)
+    test_cluster = pd.concat([image, ze], axis=1, ignore_index=True)
     centroids=np.array(centroids)
     print(cluster)
-    cluster.iloc[:, 0:3] = centroids[cluster.astype(int).iloc[:, -1], 0:3]
-    image1 = cluster.astype(int).iloc[:, 0:3]
+    test_cluster.iloc[:, 0:3] = centroids[test_cluster.astype(int).iloc[:, -1], 0:3]
+    image1 = test_cluster.astype(int).iloc[:, 0:3]
     #print(image1)
     image1 = np.array(image1).reshape(rows, cols, 3)
     #print(image1)
