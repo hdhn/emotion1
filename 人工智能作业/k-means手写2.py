@@ -44,7 +44,8 @@ def kmeans(data,k):
         #对每个簇，计算簇中所有点的均值并将均值作为质心
         for i in range(k):
             cluster=data[ret[:,1]==i]
-            print(cluster)
+            # print(ret[:,1]==i)
+            # print('cluster',cluster)
             if len(cluster)==0:
                 pass
             else:
@@ -74,7 +75,6 @@ if __name__ == '__main__':
 
     data = np.random.uniform(0,30,(200,2))
     # np.random.shuffle(data)
-
     X = data[:, 0]
     Y = data[:, 1]
 

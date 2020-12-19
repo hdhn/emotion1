@@ -84,7 +84,7 @@ def find_clusters(x, n_clusters, rseed=2):
         centers = new_centers
     return centers, labels
 if __name__ == '__main__':
-    image = io.imread('./1.jpg')
+    image = io.imread('./timg.jpg')
     #print(image)
     io.imshow(image)
     io.show()
