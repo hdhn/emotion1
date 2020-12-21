@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import pairwise_distances_argmin
-from sklearn.datasets.samples_generator import make_blobs
+from skimage import io
 # 计算欧氏距离
 def calcDis(dataSet, centroids, k):
     clalist = []
@@ -38,7 +38,7 @@ def classify(dataSet, centroids, k):
 def kmeans(dataSet, k):
     # 随机取质心
     centroids = random.sample(dataSet, k)
-
+    flag = []
     # 更新质心 直到变化量全为0
     changed, newCentroids = classify(dataSet, centroids, k)
     while np.any(changed != 0):
@@ -54,8 +54,10 @@ def kmeans(dataSet, k):
         cluster.append([])
     for i, j in enumerate(minDistIndices):  # enymerate()可同时遍历索引和遍历元素
         cluster[j].append(dataSet[i])
+        flag.append(j)
 
-    return centroids, cluster
+
+    return centroids, cluster,flag
 
 
 # 创建数据集
@@ -82,31 +84,35 @@ def find_clusters(x, n_clusters, rseed=2):
         centers = new_centers
     return centers, labels
 if __name__ == '__main__':
-    # dataset = createDataSet()
-    # print(dataset)
-    # dataset1 = pd.DataFrame(dataset)
-    # centroids, cluster = kmeans(list(dataset), 7)
-    # # ze = pd.DataFrame(np.zeros(dataset1.shape[0]).reshape(-1, 1))
-    # # test_set = pd.concat([dataset1, ze], axis=1, ignore_index=True)
-    # # test_cent, test_cluster = kmeans(list(test_set), 4)
-    # # plt.scatter(test_cluster.iloc[:, 0], test_cluster.iloc[:, 1], c=test_cluster.iloc[:, -1])
-    # # plt.scatter(test_cent[:, 0], test_cent[:, 1], color='red', marker='x', s=80)
-    # print('质心为：%s' % centroids)
-    # print('集群为：%s' % cluster)
-    #
-    # centroids = pd.DataFrame(centroids)
-    # #for i in range(len(dataset)):
-    #     #plt.scatter(dataset[i][0], dataset[i][1], marker='o',c = 'green', s=40, label='原始点')
-    #     #  记号形状       颜色      点的大小      设置标签
-    # # for j in range(len(centroids)):
-    # #     for i in range(len(dataset)):
-    # print(centroids.iloc[:,-1])
-    # #plt.scatter(dataset[:,0], dataset[:,1], marker='o', c=centroids.iloc[:,-1], s=40, label='原始点')
-    # plt.scatter(centroids.iloc[:,0], centroids.iloc[:,1], marker='x', color='red', s=50, label='质心')
-    # plt.show()
-    # print(pd.DataFrame(centroids))
+    image = io.imread('./timg.jpg')
+    #print(image)
+    io.imshow(image)
+    io.show()
+    rows = image.shape[0]
+    cols = image.shape[1]
+    print(rows, cols)
+    # image[0,0,:]：表示在第一个像素点的位置上的rgb取值，位置（0,0），reshape之后呢，位置变成（0）
+    image = image.reshape(rows * cols, 3)
+    print(image)
 
+    #以上为处理图片添加的代码
 
-    x, y = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
-    center, labels = find_clusters(x, 4)
-    plt.scatter(x[:, 0], x[:, 1], c=labels, s=50, cmap='viridis')
+    dataset =image
+    centroids, cluster,flag = kmeans(list(dataset), 3)
+    #flag = pd.DataFrame(flag)
+    print('质心为：%s' % centroids)
+    print('集群为：%s' % cluster)
+    flag = np.array(flag)
+    image =  pd.DataFrame(image)
+    cluster = pd.DataFrame(cluster)
+    ze = pd.DataFrame(flag.reshape(-1, 1))
+    test_cluster = pd.concat([image, ze], axis=1, ignore_index=True)
+    centroids=np.array(centroids)
+    print(cluster)
+    test_cluster.iloc[:, 0:3] = centroids[test_cluster.astype(int).iloc[:, -1], 0:3]
+    image1 = test_cluster.astype(int).iloc[:, 0:3]
+    #print(image1)
+    image1 = np.array(image1).reshape(rows, cols, 3)
+    #print(image1)
+    io.imshow(image1.astype(np.uint8))
+    io.show()

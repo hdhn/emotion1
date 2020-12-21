@@ -1,8 +1,7 @@
 from skimage import io
 import matplotlib.pyplot as mp
 import sklearn.cluster as sc
-
-
+from sklearn.cluster import KMeans
 
 
 img = io.imread('./smile.jpg',True)

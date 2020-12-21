@@ -175,25 +175,26 @@ def ReadCSV(filename):
                 continue
             datas.append(rows[6])
         return datas
-data1 = '今天上海的天气真好！我的心情非常高兴！如果去旅游的话我会非常兴奋！和你一起去旅游我会更加幸福！'
-data2 = '救命，你是个坏人，救命，你不要碰我，救命，你个大坏蛋！'
-data3 = '我是美国华裔科学家,祖籍江苏扬州市高邮县,生于上海,斯坦福大学物理系、电子工程系和应用物理系教授'
+if __name__ == "__main__":
+    data1 = '今天上海的天气真好！我的心情非常高兴！如果去旅游的话我会非常兴奋！和你一起去旅游我会更加幸福！'
+    data2 = '救命，你是个坏人，救命，你不要碰我，救命，你个大坏蛋！'
+    data3 = '我是美国华裔科学家,祖籍江苏扬州市高邮县,生于上海,斯坦福大学物理系、电子工程系和应用物理系教授'
 
-print(sentiment_score(sentiment_score_list(data1)))
-print(sentiment_score(sentiment_score_list(data2)))
-print(sentiment_score(sentiment_score_list(data3)))
+    print(sentiment_score(sentiment_score_list(data1)))
+    print(sentiment_score(sentiment_score_list(data2)))
+    print(sentiment_score(sentiment_score_list(data3)))
 
-a, b = EmotionByScore(data1)
-c,d = EmotionByScore(data2)
-e,f = EmotionByScore(data3)
+    a, b = EmotionByScore(data1)
+    c,d = EmotionByScore(data2)
+    e,f = EmotionByScore(data3)
 
-emotion1 = JudgingEmotionByScore(a, b)
-emotion2 = JudgingEmotionByScore(c, d)
-emotion3 = JudgingEmotionByScore(e, f)
-print(emotion1,emotion2,emotion3)
+    emotion1 = JudgingEmotionByScore(a, b)
+    emotion2 = JudgingEmotionByScore(c, d)
+    emotion3 = JudgingEmotionByScore(e, f)
+    print(emotion1,emotion2,emotion3)
 
-# datas = ReadCSV('获取店铺评论.csv')
-# for data in datas:
-#     g,h = EmotionByScore(data)
-#     emotion4 = JudgingEmotionByScore(g,h)
-#     print(emotion4)
+    # datas = ReadCSV('获取店铺评论.csv')
+    # for data in datas:
+    #     g,h = EmotionByScore(data)
+    #     emotion4 = JudgingEmotionByScore(g,h)
+    #     print(emotion4)
