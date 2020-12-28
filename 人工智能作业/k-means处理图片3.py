@@ -1,7 +1,8 @@
 import random
+import time
+
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.metrics import pairwise_distances_argmin
 from skimage import io
 # 计算欧氏距离
@@ -42,7 +43,9 @@ def kmeans(dataSet, k):
     # 更新质心 直到变化量全为0
     changed, newCentroids = classify(dataSet, centroids, k)
     while np.any(changed != 0):
+        start = time.time()
         changed, newCentroids = classify(dataSet, newCentroids, k)
+        print('循环时间',time.time()-start)
 
     centroids = sorted(newCentroids.tolist())  # tolist()将矩阵转换成列表 sorted()排序
 
@@ -63,7 +66,7 @@ def kmeans(dataSet, k):
 # 创建数据集
 def createDataSet():
     data = np.random.uniform(1,50,(100,2))
-    return data#[[1, 1], [1, 2], [2, 1], [6, 4], [6, 3], [5, 4]]
+    return data
 
 
 def find_clusters(x, n_clusters, rseed=2):
@@ -84,13 +87,13 @@ def find_clusters(x, n_clusters, rseed=2):
         centers = new_centers
     return centers, labels
 if __name__ == '__main__':
-    image = io.imread('./timg.jpg')
-    #print(image)
+    image = io.imread('./2.jpg')
+    print(image)
     io.imshow(image)
     io.show()
     rows = image.shape[0]
     cols = image.shape[1]
-    print(rows, cols)
+    #print(rows, cols)
     # image[0,0,:]：表示在第一个像素点的位置上的rgb取值，位置（0,0），reshape之后呢，位置变成（0）
     image = image.reshape(rows * cols, 3)
     print(image)
@@ -98,17 +101,14 @@ if __name__ == '__main__':
     #以上为处理图片添加的代码
 
     dataset =image
+    start1 = time.time()
     centroids, cluster,flag = kmeans(list(dataset), 3)
-    #flag = pd.DataFrame(flag)
-    print('质心为：%s' % centroids)
-    print('集群为：%s' % cluster)
+    print('总时间',time.time()-start1)
     flag = np.array(flag)
     image =  pd.DataFrame(image)
-    cluster = pd.DataFrame(cluster)
     ze = pd.DataFrame(flag.reshape(-1, 1))
     test_cluster = pd.concat([image, ze], axis=1, ignore_index=True)
     centroids=np.array(centroids)
-    print(cluster)
     test_cluster.iloc[:, 0:3] = centroids[test_cluster.astype(int).iloc[:, -1], 0:3]
     image1 = test_cluster.astype(int).iloc[:, 0:3]
     #print(image1)
