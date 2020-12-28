@@ -83,4 +83,4 @@ git stash apply stash@{0}                                 # 应用第一次暂�
 git grep "delete from"                                    # 文件中搜索文本“delete from”
 git grep -e '#define' --and -e SORT_DIRENT
 git gc
-git fsck
+git fsck"# huangkaijian" 
