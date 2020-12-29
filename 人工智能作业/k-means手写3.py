@@ -39,10 +39,21 @@ def kmeans(dataSet, k):
     # 随机取质心
     centroids = random.sample(dataSet, k)
     flag = []
+
     # 更新质心 直到变化量全为0
     changed, newCentroids = classify(dataSet, centroids, k)
     while np.any(changed != 0):
+        flag1=[]
         changed, newCentroids = classify(dataSet, newCentroids, k)
+        centroid1 = pd.DataFrame(newCentroids)
+        clalist1 = calcDis(dataSet, centroid1, k)  # 调用欧拉距离
+        minDistIndices1 = np.argmin(clalist1, axis=1)
+        for i, j in enumerate(minDistIndices1):
+            flag1.append(j)
+        flag1=pd.DataFrame(flag1)
+        plt.scatter(dataset[:,0], dataset[:,1], marker='o', c=flag1.iloc[:,-1], s=40, label='原始点')
+        plt.scatter(centroid1.iloc[:,0], centroid1.iloc[:,1], marker='x', color='red', s=50, label='质心')
+        plt.show()
 
     centroids = sorted(newCentroids.tolist())  # tolist()将矩阵转换成列表 sorted()排序
 
@@ -55,6 +66,7 @@ def kmeans(dataSet, k):
     for i, j in enumerate(minDistIndices):  # enymerate()可同时遍历索引和遍历元素
         cluster[j].append(dataSet[i])
         flag.append(j)
+
 
 
     return centroids, cluster,flag
@@ -84,40 +96,16 @@ def find_clusters(x, n_clusters, rseed=2):
         centers = new_centers
     return centers, labels
 if __name__ == '__main__':
-    image = io.imread('./1.jpg')
-    print(image)
-    io.imshow(image)
-    io.show()
-    rows = image.shape[0]
-    cols = image.shape[1]
-    print(rows, cols)
-    # image[0,0,:]：表示在第一个像素点的位置上的rgb取值，位置（0,0），reshape之后呢，位置变成（0）
-    image = image.reshape(rows * cols, 3)
-    dataset = image
-    #testSet =  pd.DataFrame(image)
 
-    #以上为处理图片添加的代码
-    # dataset = createDataSet()
-    # print(dataset)
-    centroids, cluster,flag = kmeans(list(dataset), 2)
+    dataset = createDataSet()
+    print(dataset)
+    centroids, cluster,flag = kmeans(list(dataset), 5)
     flag = pd.DataFrame(flag)
-    print('质心为：%s' % centroids)
-    print('集群为：%s' % cluster)
+    # print('质心为：%s' % centroids)
+    # print('集群为：%s' % cluster)
 
     centroids = pd.DataFrame(centroids)
-    cluster = pd.DataFrame(cluster)
     plt.scatter(dataset[:,0], dataset[:,1], marker='o', c=flag.iloc[:,-1], s=40, label='原始点')
     plt.scatter(centroids.iloc[:,0], centroids.iloc[:,1], marker='x', color='red', s=50, label='质心')
     plt.show()
     print(centroids)
-    centroids=np.array(centroids)
-    print(cluster)
-    cluster.iloc[:, :] = 0
-    cluster=cluster.T
-    print(cluster)
-    # image1 = cluster.astype(int).iloc[:, 0:3]
-    # print(image1)
-    # image1 = np.array(image1).reshape(rows, cols, 3)
-    # print(image1)
-    # io.imshow(image1.astype(np.uint8))
-    # io.show()
