@@ -69,23 +69,23 @@ def createDataSet():
     return data
 
 
-def find_clusters(x, n_clusters, rseed=2):
-    #1.随机选择簇中心点
-    rng = np.random.RandomState(rseed)
-    i = rng.permutation(x.shape[0])[:n_clusters]
-    centers = x[i]
-
-    while True:
-        # 2a.给于最近的中心执行标签
-        labels = pairwise_distances_argmin(x, centers)
-        #2b.根据点的平均值找到新的中心
-        new_centers =np.array([x[labels==i].mean(0)
-                               for i in range(n_clusters)])
-        #2c.确认收敛
-        if np.all(centers == new_centers):
-            break
-        centers = new_centers
-    return centers, labels
+# def find_clusters(x, n_clusters, rseed=2):
+#     #1.随机选择簇中心点
+#     rng = np.random.RandomState(rseed)
+#     i = rng.permutation(x.shape[0])[:n_clusters]
+#     centers = x[i]
+#
+#     while True:
+#         # 2a.给于最近的中心执行标签
+#         labels = pairwise_distances_argmin(x, centers)
+#         #2b.根据点的平均值找到新的中心
+#         new_centers =np.array([x[labels==i].mean(0)
+#                                for i in range(n_clusters)])
+#         #2c.确认收敛
+#         if np.all(centers == new_centers):
+#             break
+#         centers = new_centers
+#     return centers, labels
 if __name__ == '__main__':
     image = io.imread('./2.jpg')
     print(image)
@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     dataset =image
     start1 = time.time()
-    centroids, cluster,flag = kmeans(list(dataset), 3)
+    centroids, cluster,flag = kmeans(list(dataset), 5)
     print('总时间',time.time()-start1)
     flag = np.array(flag)
     image =  pd.DataFrame(image)

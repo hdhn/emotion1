@@ -80,8 +80,8 @@ def kMeans(dataSet, k):
     return res.int()
 
 
-data = mpimg.imread('timg.jpg')
-img = kMeans(data, 2)
+data = mpimg.imread('dog.jpg')
+img = kMeans(data, 4)
 
 plt.imshow(img)
 plt.show()

@@ -25,19 +25,17 @@ def kmeans(dataSet,k,distMeas = disEclud,creatCent = randCent):
     result_set = pd.concat([dataSet,pd.DataFrame(clusterAssment)],axis=1,ignore_index=True)
     #链接数据集与clusterAssment
     clusterChange = True
-    count1=0
-    while clusterChange and count1<=1000:
+    while clusterChange :
         clusterChange = False
         for i in range(m):
             dist = distMeas(dataSet.iloc[i,:n-1].values,centroids) #计算欧氏距离
-            result_set.iloc[i,n] = dist.min()#欧式距离的最小值储存在第n+1列
+            result_set.iloc[i,n] = dist.min() #欧式距离的最小值储存在第n+1列
             result_set.iloc[i,n+1] = np.where(dist == dist.min())[0]#第n+2列储存质心编号
         clusterChange = not (result_set.iloc[:,-1]==result_set.iloc[:,-2]).all()
         if clusterChange:#判断质心是否发生变化
             cent_df = result_set.groupby(n+1).mean()
             centroids = cent_df.iloc[:,:n-1].values
             result_set.iloc[:,-1] = result_set.iloc[:,-2]
-        count1+=1
     return centroids,result_set
 
 def createDataSet():
@@ -57,9 +55,9 @@ if __name__ == '__main__':
     ze = pd.DataFrame(np.zeros(testSet.shape[0]).reshape(-1,1))
     test_set = pd.concat([testSet,ze],axis=1,ignore_index= True)
     test_cent,test_cluster = kmeans(test_set,4)
-    print(test_cluster,test_cent)
+    #print(test_cluster,test_cent)
     plt.scatter(test_cluster.iloc[:,0],test_cluster.iloc[:,1],c = test_cluster.iloc[:,-1])
 
     plt.scatter(test_cent[:,0],test_cent[:,1],color='red',marker='x',s = 80)
     plt.show()
-    print(test_cluster.iloc[:,-1])
+    #print(test_cluster.iloc[:,-1])
