@@ -9,10 +9,10 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 sys.path.append("..")
 
 header_pinlun = {
-    'Cookie': 'cy=3; cye=hangzhou; _lxsdk_cuid=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _lxsdk=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _hc.v=9030c7fe-0b57-e105-ffa5-45d14dae3ce0.1603081232; ll=7fd06e815b796be3df069dec7836c3df; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a9981023b8d10bde71e72095032b366399a6fe8; uamo=13247877023; s_ViewType=10; dper=a692dd00b59f6bb61dbee6cbd356f84ca9759ce61fd38cec1c34dd4af2833e9de75f06443554a7cc84eff48a876de8a9e6df65cf464542041203347a9d37996e57321a8b184aaf0e81b2930341fc1aa1d339073a49843ee04abd69fdff5db521; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1603081232,1603081243,1605159680; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; dplet=7a43f825689c976c0d67bccb6df28234; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1605159883; _lxsdk_s=175baf83d92-b4a-5d8-2d%7C%7C212',
+    'Cookie': '_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; fspop=test; cy=3; cye=hangzhou; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1610550129,1610592304,1610695132; lgtoken=0a576d7f7-914b-4b34-b1c4-71940c0cc5ee; dplet=f2c4314d42538d0d86a7fe5210b6226f; dper=aab8f7bdf8f42445917649b322964a4809e0ba41fe77cdc10e6b930f8cea8ee9330c58091f27be69f19438f88577a7df0bd877f648d48c292391add1e866c380ee35520b287374f59b983d887ce907badecff6ae829c644a31b0f2a78a980091; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1610721736; _lxsdk_s=177067eaf0b-ece-323-abf%7C%7C173',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
-    'Referer': 'http://www.dianping.com/shop/l8uNm5kgLP4n6eLq/review_all',
+    'Referer': 'http://www.dianping.com/shop/{shopid}/review_all',
     'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36'
 }
 
@@ -33,6 +33,7 @@ def get_msg(shopid,page):
     # url = "http://www.dianping.com/shop/110620927/review_all"
     url = "http://www.dianping.com/shop/{shopid}/review_all/p{page}".format(shopid = shopid,page = page)
     # url = "https://www.dianping.com/shop/77307732/review_all"
+    header_pinlun['Referer'] = header_pinlun['Referer'].format(shopid=shopid)
     html = requests.get(url, headers=header_pinlun)
     print("1 ===> STATUS", html.status_code)
     doc = pq(html.text)
@@ -86,10 +87,11 @@ def get_msg(shopid,page):
         print("pinglun:", css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun))
         print("*" * 100)
         pinluncontent = css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun)
-        out = open('./获取店铺评论2.csv','a',newline='',encoding='utf-8')
+        out = open('./获取店铺评论3.csv','a',newline='',encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
-        csv_write.writerow([userName,userID,startShop,describeShop,loveFood,pinglunTime,pinluncontent])
+        if pinglunTime[0:4]=='2020':
+            csv_write.writerow([userName,userID,startShop,describeShop,loveFood,pinglunTime,pinluncontent])
         out.close()
         print("successful insert csv!")
     return 1
@@ -221,10 +223,10 @@ def ReadCSV(filename):
         return datas,dicts
 
 if __name__ == '__main__':
-    file_name = './获取店铺id测试.csv'
+    file_name = './获取店铺id1测试.csv'
     datas,dicts  = ReadCSV(file_name)
     for data in datas:
-        out = open('./获取店铺评论2.csv', 'a', newline='', encoding='utf-8')
+        out = open('./获取店铺评论3.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow(["店铺名称", "店铺id"])
