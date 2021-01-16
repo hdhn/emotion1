@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 sys.path.append("..")
 
 header_pinlun = {
-    'Cookie': '_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; fspop=test; cy=3; cye=hangzhou; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1610550129,1610592304,1610695132; lgtoken=0a576d7f7-914b-4b34-b1c4-71940c0cc5ee; dplet=f2c4314d42538d0d86a7fe5210b6226f; dper=aab8f7bdf8f42445917649b322964a4809e0ba41fe77cdc10e6b930f8cea8ee9330c58091f27be69f19438f88577a7df0bd877f648d48c292391add1e866c380ee35520b287374f59b983d887ce907badecff6ae829c644a31b0f2a78a980091; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1610721736; _lxsdk_s=177067eaf0b-ece-323-abf%7C%7C173',
+    'Cookie': '_lxsdk_cuid=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _lxsdk=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _hc.v=9030c7fe-0b57-e105-ffa5-45d14dae3ce0.1603081232; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a9981023b8d10bde71e72095032b366399a6fe8; s_ViewType=10; fspop=test; cy=3; cye=hangzhou; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1610599383; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; lgtoken=0bcf258ed-2d05-46de-95cf-3f99e1171d92; dper=aab8f7bdf8f42445917649b322964a48bec337c784bb46f165f236287e0ca8f6b3a9cf0f593f7430cba44f7bb4eb354fc078f313b9b75e4ae8d764169dc083ced4a66b28ad9b740b4a5ade73226737d01aa34a6ee65ebcedaffcfa1c5a19013e; dplet=36e3166334c6487641e9b1af99886171; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1610772980; _lxsdk_s=177098ca677-dc8-4b7-75%7C%7C283',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
     'Referer': 'http://www.dianping.com/shop/{shopid}/review_all',
@@ -56,6 +56,8 @@ def get_msg(shopid,page):
     for data in pinglunLi:
         # 用户名
         userName = data("div.main-review > div.dper-info > a").text()
+        if not userName:
+            return 2
         # 用户ID链接
         try:
             userID = "http://www.dianping.com" + data("div.main-review > div.dper-info > a").attr("href")
@@ -92,6 +94,8 @@ def get_msg(shopid,page):
         csv_write = csv.writer(out, dialect='excel')
         if pinglunTime[0:4]=='2020':
             csv_write.writerow([userName,userID,startShop,describeShop,loveFood,pinglunTime,pinluncontent])
+        elif pinglunTime[0:4]=='2019':
+            return 2
         out.close()
         print("successful insert csv!")
     return 1
@@ -234,11 +238,13 @@ if __name__ == '__main__':
         csv_write.writerow(["userName", "userID", "startShop", "describeShop", "loveFood", "pinglunTime", "pinglun"])
         out.close()
         print("店铺名称",dicts[data], "店铺id",data)
-        for page in range(2,2000):
+        for page in range(2,1000):
             print("正在爬取%s页。。。。。" % page)
             a = get_msg(shopid=data,page=page)
             if not a:
                 b = input("请按enter键继续，按“1”终止内循环")
                 if b == 1:
                     break
+            if a ==2:
+                break
             time.sleep(random.randint(3,5))
