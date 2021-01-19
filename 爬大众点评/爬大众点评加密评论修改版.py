@@ -56,6 +56,10 @@ def get_msg(shopid,page):
         return 0
     # 解析每条评论
     pinglunLi = doc("div.reviews-items > ul > li").items()
+    if not doc("div.reviews-items > ul > li"):
+        print("该页面没有评论")
+        return 2
+
     """
     调用评论里的css样式处理和加密字体svg处理
     :return:
@@ -68,9 +72,6 @@ def get_msg(shopid,page):
     for data in pinglunLi:
         # 用户名
         userName = data("div.main-review > div.dper-info > a").text()
-        if not userName:
-            print("该页面没有评论")
-            return 0
         # 用户ID链接
         try:
             userID = "http://www.dianping.com" + data("div.main-review > div.dper-info > a").attr("href")
@@ -103,7 +104,7 @@ def get_msg(shopid,page):
         print("pinglun:", css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun))
         print("*" * 100)
         pinluncontent = css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun)
-        out = open('./获取店铺评论2.csv', 'a', newline='', encoding='utf-8')
+        out = open('./获取店铺评论3.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow([userName, userID, startShop, describeShop, loveFood, pinglunTime, pinluncontent])
@@ -248,10 +249,10 @@ def ReadCSV(filename):
         return datas,dicts
 
 if __name__ == '__main__':
-    file_name = './获取店铺id测试.csv'
+    file_name = './获取店铺id1测试.csv'
     datas, dicts = ReadCSV(file_name)
     for data in datas:
-        out = open('./获取店铺评论2.csv', 'a', newline='', encoding='utf-8')
+        out = open('./获取店铺评论3.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow(["店铺名称", "店铺id"])
@@ -266,4 +267,6 @@ if __name__ == '__main__':
                 b = input("请按enter键继续，按“1”终止内循环")
                 if b == 1:
                     break
+            if a ==2:
+                break
             time.sleep(random.randint(3, 5))

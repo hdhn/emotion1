@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 sys.path.append("..")
 
 header_pinlun = {
-    'Cookie': '_lxsdk_cuid=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _lxsdk=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _hc.v=9030c7fe-0b57-e105-ffa5-45d14dae3ce0.1603081232; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a9981023b8d10bde71e72095032b366399a6fe8; s_ViewType=10; fspop=test; cy=3; cye=hangzhou; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1610599383; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; lgtoken=0bcf258ed-2d05-46de-95cf-3f99e1171d92; dper=aab8f7bdf8f42445917649b322964a48bec337c784bb46f165f236287e0ca8f6b3a9cf0f593f7430cba44f7bb4eb354fc078f313b9b75e4ae8d764169dc083ced4a66b28ad9b740b4a5ade73226737d01aa34a6ee65ebcedaffcfa1c5a19013e; dplet=36e3166334c6487641e9b1af99886171; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1610772980; _lxsdk_s=177098ca677-dc8-4b7-75%7C%7C283',
+    'Cookie': '_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; fspop=test; cy=3; cye=hangzhou; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1610592304,1610695132,1610807384,1610867422; dper=c5c9777b29db648f4d66ac86c52f65a5c8b23ae2e85043fe97da63814b8096ddcfc09ec50a01d2c30098f4873f04507ab4d891ee824d849bfea01c35cfce86e75f3ff771c7bf1b376ac8b6d5bf5e061eacb073651b16cc244229002ea8bb4e12; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dplet=8dcb97a2b055d9463af392d3e982d3ed; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1610886243; _lxsdk_s=177104cf8f8-8a9-28a-e12%7C%7C242',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
     'Referer': 'http://www.dianping.com/shop/{shopid}/review_all',
@@ -44,6 +44,8 @@ def get_msg(shopid,page):
         return 0
     # 解析每条评论
     pinglunLi = doc("div.reviews-items > ul > li").items()
+    if not doc("div.reviews-items > ul > li"):
+        return 2
     """
     调用评论里的css样式处理和加密字体svg处理
     :return:
