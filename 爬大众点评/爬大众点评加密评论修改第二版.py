@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 sys.path.append("..")
 
 header_pinlun = {
-    'Cookie': '_lxsdk_cuid=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _lxsdk=1753bb608fbc8-0be3842885820b-6b111b7e-1fa400-1753bb608fcc8; _hc.v=8429fd3f-f5ca-d6a9-fe0f-58cf71ca55b9.1603024588; s_ViewType=10; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a998102e40f1aa3353081dc3b314009932e84da; fspop=test; cy=3; cye=hangzhou; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1610592304,1610695132,1610807384,1610867422; dper=c5c9777b29db648f4d66ac86c52f65a5c8b23ae2e85043fe97da63814b8096ddcfc09ec50a01d2c30098f4873f04507ab4d891ee824d849bfea01c35cfce86e75f3ff771c7bf1b376ac8b6d5bf5e061eacb073651b16cc244229002ea8bb4e12; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; dplet=8dcb97a2b055d9463af392d3e982d3ed; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1610886243; _lxsdk_s=177104cf8f8-8a9-28a-e12%7C%7C242',
+    'Cookie': 'Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1612767428; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; _hc.v=417c4a48-2668-51f5-a7e5-ea0db3d6b53c.1611638037; ctu=fe93aeb2070b2cfc0f27a74d6779976cb85a1e1978a70374697722afc51c6db3; dper=a0e34ec4ea75e3adcdfa5a37160f0af3c43506d40cb5a56dfa65bead3f601db279c0feb22c89ee1e45f9222e622c0a784209f1e8390bc255919ab90e2f416dbafad51b95cd86b6cd70274a01beb0378251bdac0eafa1a2444e050a740781dd34; _lxsdk_cuid=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; s_ViewType=10; _lxsdk=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; fspop=test; dplet=6196b1beb8e4312eceadf9b12e10814d; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; cye=hangzhou; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1611986249,1612266760,1612418248,1612764191; _lxsdk_s=177803c9a23-7c9-41f-9bc%7C%7C1096; cy=3',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
     'Referer': 'http://www.dianping.com/shop/{shopid}/review_all',
@@ -31,7 +31,7 @@ def get_msg(shopid,page):
     :return:
     """
     # url = "http://www.dianping.com/shop/110620927/review_all"
-    url = "http://www.dianping.com/shop/{shopid}/review_all/p{page}".format(shopid = shopid,page = page)
+    url = "http://www.dianping.com/shop/{shopid}/review_all/p{page}".format(shopid = shopid,page = page+1)
     # url = "https://www.dianping.com/shop/77307732/review_all"
     header_pinlun['Referer'] = header_pinlun['Referer'].format(shopid=shopid)
     html = requests.get(url, headers=header_pinlun)
@@ -45,7 +45,7 @@ def get_msg(shopid,page):
     # 解析每条评论
     pinglunLi = doc("div.reviews-items > ul > li").items()
     if not doc("div.reviews-items > ul > li"):
-        return 2
+        return 0
     """
     调用评论里的css样式处理和加密字体svg处理
     :return:
@@ -240,7 +240,7 @@ if __name__ == '__main__':
         csv_write.writerow(["userName", "userID", "startShop", "describeShop", "loveFood", "pinglunTime", "pinglun"])
         out.close()
         print("店铺名称",dicts[data], "店铺id",data)
-        for page in range(2,1000):
+        for page in range(20,1000):
             print("正在爬取%s页。。。。。" % page)
             a = get_msg(shopid=data,page=page)
             if not a:
@@ -249,4 +249,5 @@ if __name__ == '__main__':
                     break
             if a ==2:
                 break
-            time.sleep(random.randint(3,5))
+            time.sleep(random.randint(5,9))
+        input("程序结束")

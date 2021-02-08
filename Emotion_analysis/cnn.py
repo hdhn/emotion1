@@ -39,7 +39,7 @@ def fenci(batch):
 
 # 引用停词文档
 def stopwordslist():
-    stopwords = [line.strip() for line in open('data/stopword1.txt',encoding='UTF-8').readlines()]
+    stopwords = [line.strip() for line in open('stopword1.txt',encoding='UTF-8').readlines()]
     return stopwords
 
 # 过滤停词文档
@@ -67,7 +67,7 @@ def get_data(index_dict,word_vectors,num_words):
 def load():
     # 加载数据
     print('开始加载数据ing')
-    train = pd.read_excel('data/train.xlsx', usecols = [0,1],nrows=200,encoding='utf-8')  # 读取excel文件
+    train = pd.read_excel('train.xlsx', usecols = [0,1],nrows=200,encoding='utf-8')  # 读取excel文件
     print('加载完毕')    
     a=train.values.tolist()  # 转换为列表形式    
     x=[]

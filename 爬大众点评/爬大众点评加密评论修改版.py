@@ -21,7 +21,7 @@ import random,time
 # sys.path.append("..")
 
 header_pinlun = {
-    'Cookie':'cy=3; cye=hangzhou; _lxsdk_cuid=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _lxsdk=1753f165f9ec8-0cb558ba6b0e3a-6b111b7e-144000-1753f165f9fbe; _hc.v=9030c7fe-0b57-e105-ffa5-45d14dae3ce0.1603081232; ll=7fd06e815b796be3df069dec7836c3df; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; ctu=7fc965fa839279cab50ca6c42a9981023b8d10bde71e72095032b366399a6fe8; uamo=13247877023; s_ViewType=10; dper=a692dd00b59f6bb61dbee6cbd356f84ca9759ce61fd38cec1c34dd4af2833e9de75f06443554a7cc84eff48a876de8a9e6df65cf464542041203347a9d37996e57321a8b184aaf0e81b2930341fc1aa1d339073a49843ee04abd69fdff5db521; fspop=test; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1603081232,1603081243,1605159680; _lx_utm=utm_source%3Dwww.sogou%26utm_medium%3Dorganic; dplet=7a43f825689c976c0d67bccb6df28234; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1605160847; _lxsdk_s=175baf83d92-b4a-5d8-2d%7C%7C777',
+    'Cookie':'Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1612766247; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; _hc.v=417c4a48-2668-51f5-a7e5-ea0db3d6b53c.1611638037; ctu=fe93aeb2070b2cfc0f27a74d6779976cb85a1e1978a70374697722afc51c6db3; dper=a0e34ec4ea75e3adcdfa5a37160f0af3c43506d40cb5a56dfa65bead3f601db279c0feb22c89ee1e45f9222e622c0a784209f1e8390bc255919ab90e2f416dbafad51b95cd86b6cd70274a01beb0378251bdac0eafa1a2444e050a740781dd34; _lxsdk_cuid=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; s_ViewType=10; _lxsdk=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; fspop=test; dplet=6196b1beb8e4312eceadf9b12e10814d; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; cye=hangzhou; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1611986249,1612266760,1612418248,1612764191; _lxsdk_s=177803c9a23-7c9-41f-9bc%7C%7C811; cy=3',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
     'Referer': 'http://www.dianping.com/shop/{shopid}/review_all',
@@ -43,7 +43,7 @@ def get_msg(shopid,page):
     :return:
     """
     # url = "http://www.dianping.com/shop/110620927/review_all"
-    url = "http://www.dianping.com/shop/{shopid}/review_all/p{page}".format(shopid = shopid,page = page)
+    url = "http://www.dianping.com/shop/{shopid}/review_all/p{page}".format(shopid = shopid,page = page-1)
     # url = "https://www.dianping.com/shop/77307732/review_all"
     header_pinlun['Referer'] = header_pinlun['Referer'].format(shopid = shopid)
     html = requests.get(url, headers=header_pinlun)
@@ -58,7 +58,7 @@ def get_msg(shopid,page):
     pinglunLi = doc("div.reviews-items > ul > li").items()
     if not doc("div.reviews-items > ul > li"):
         print("该页面没有评论")
-        return 2
+        return 0
 
     """
     调用评论里的css样式处理和加密字体svg处理
@@ -72,6 +72,8 @@ def get_msg(shopid,page):
     for data in pinglunLi:
         # 用户名
         userName = data("div.main-review > div.dper-info > a").text()
+        if not userName:
+            return 2
         # 用户ID链接
         try:
             userID = "http://www.dianping.com" + data("div.main-review > div.dper-info > a").attr("href")
@@ -107,7 +109,10 @@ def get_msg(shopid,page):
         out = open('./获取店铺评论3.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
-        csv_write.writerow([userName, userID, startShop, describeShop, loveFood, pinglunTime, pinluncontent])
+        if pinglunTime[0:4]=='2020':
+            csv_write.writerow([userName,userID,startShop,describeShop,loveFood,pinglunTime,pinluncontent])
+        elif pinglunTime[0:4]=='2019':
+            return 2
         out.close()
         print("successful insert csv!")
     return 1
@@ -260,7 +265,7 @@ if __name__ == '__main__':
         csv_write.writerow(["userName", "userID", "startShop", "describeShop", "loveFood", "pinglunTime", "pinglun"])
         out.close()
         print("店铺名称", dicts[data], "店铺id", data)
-        for page in range(2, 2000):
+        for page in range(244, 1000):
             print("正在爬取%s页。。。。。" % page)
             a = get_msg(shopid=data, page=page)
             if not a:
@@ -269,4 +274,5 @@ if __name__ == '__main__':
                     break
             if a ==2:
                 break
-            time.sleep(random.randint(3, 5))
+            time.sleep(random.randint(5, 9))
+        input("程序结束")
