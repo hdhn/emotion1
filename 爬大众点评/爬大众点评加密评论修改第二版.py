@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 sys.path.append("..")
 
 header_pinlun = {
-    'Cookie': 'Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1612767428; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; _hc.v=417c4a48-2668-51f5-a7e5-ea0db3d6b53c.1611638037; ctu=fe93aeb2070b2cfc0f27a74d6779976cb85a1e1978a70374697722afc51c6db3; dper=a0e34ec4ea75e3adcdfa5a37160f0af3c43506d40cb5a56dfa65bead3f601db279c0feb22c89ee1e45f9222e622c0a784209f1e8390bc255919ab90e2f416dbafad51b95cd86b6cd70274a01beb0378251bdac0eafa1a2444e050a740781dd34; _lxsdk_cuid=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; s_ViewType=10; _lxsdk=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; fspop=test; dplet=6196b1beb8e4312eceadf9b12e10814d; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; cye=hangzhou; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1611986249,1612266760,1612418248,1612764191; _lxsdk_s=177803c9a23-7c9-41f-9bc%7C%7C1096; cy=3',
+    'Cookie': 'Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1614257741; ll=7fd06e815b796be3df069dec7836c3df; uamo=13247877023; _hc.v=417c4a48-2668-51f5-a7e5-ea0db3d6b53c.1611638037; ctu=fe93aeb2070b2cfc0f27a74d6779976cb85a1e1978a70374697722afc51c6db3; dper=3497c27c2d09fc4d9fae3b8c9ec8d30966a3b939c9b3d1cab842a94dcb8384246d0e2f120ca64d787abef9a69d51b131e53292512e4f95b7c47f5c54e2a81235fc7c9c339e14124bb18f86bbf4b4f24fd8a7af477644bab04e2f49230d315450; _lxsdk_cuid=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; s_ViewType=10; _lxsdk=1773d1cd959c8-04432c5d347403-71415a3a-240000-1773d1cd95923; fspop=test; dplet=51d442e3e00631d0f1975354614e5761; ua=%E5%8B%BF%E5%BF%98%E5%BF%83%E5%AE%89_9104; cye=hangzhou; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1613574121,1613714650,1613981655,1614142146; cy=3; _lxsdk_s=177d98f23f6-81b-aee-166%7C%7C1',
     'Host': 'www.dianping.com',
     'Accept-Encoding': 'gzip',
     'Referer': 'http://www.dianping.com/shop/{shopid}/review_all',
@@ -45,6 +45,7 @@ def get_msg(shopid,page):
     # 解析每条评论
     pinglunLi = doc("div.reviews-items > ul > li").items()
     if not doc("div.reviews-items > ul > li"):
+        print("该页面没有评论")
         return 0
     """
     调用评论里的css样式处理和加密字体svg处理
@@ -91,7 +92,7 @@ def get_msg(shopid,page):
         print("pinglun:", css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun))
         print("*" * 100)
         pinluncontent = css_decode(dict_css_x_y, dict_svg_text, list_svg_y, pinglun)
-        out = open('./获取店铺评论3.csv','a',newline='',encoding='utf-8')
+        out = open('./获取店铺评论4.csv','a',newline='',encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         if pinglunTime[0:4]=='2020':
@@ -232,7 +233,7 @@ if __name__ == '__main__':
     file_name = './获取店铺id1测试.csv'
     datas,dicts  = ReadCSV(file_name)
     for data in datas:
-        out = open('./获取店铺评论3.csv', 'a', newline='', encoding='utf-8')
+        out = open('./获取店铺评论4.csv', 'a', newline='', encoding='utf-8')
         # 设定写入模式
         csv_write = csv.writer(out, dialect='excel')
         csv_write.writerow(["店铺名称", "店铺id"])
@@ -240,14 +241,14 @@ if __name__ == '__main__':
         csv_write.writerow(["userName", "userID", "startShop", "describeShop", "loveFood", "pinglunTime", "pinglun"])
         out.close()
         print("店铺名称",dicts[data], "店铺id",data)
-        for page in range(20,1000):
+        for page in range(2,1000):
             print("正在爬取%s页。。。。。" % page)
             a = get_msg(shopid=data,page=page)
             if not a:
                 b = input("请按enter键继续，按“1”终止内循环")
-                if b == 1:
+                if b == '1':
                     break
             if a ==2:
                 break
             time.sleep(random.randint(5,9))
-        input("程序结束")
+        #input("程序结束")
